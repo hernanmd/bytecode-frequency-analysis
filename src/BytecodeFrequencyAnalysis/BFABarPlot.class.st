@@ -1,14 +1,10 @@
 Class {
 	#name : #BFABarPlot,
-	#superclass : #Object,
+	#superclass : #BFAPlot,
 	#instVars : [
-		'dataSource',
 		'chart',
-		'title',
 		'occurrences',
-		'columnNames',
-		'dataFrame',
-		'threshold'
+		'columnNames'
 	],
 	#category : #BytecodeFrequencyAnalysis
 }
@@ -52,8 +48,8 @@ BFABarPlot class >> exampleMultipleSave [
 		'STON-compiled-methods.csv' 'STON' 20
 		'NECompletion-compiled-methods.csv' 'Completion' 20
 		'FileSystem-compiled-methods.csv' 'FileSystem' 40
-		'Collection-compiled-methods.csv' 'Collection' 40
-		'Math-compiled-methods.csv' 'PolyMath' 40
+		'Collection-compiled-methods.csv' 'Collection' 100
+		'Math-compiled-methods.csv' 'PolyMath' 100
 	)	
 		triplesDo: [ : fileName : title : thresholdValue | 
 			BFABarPlot 
@@ -62,6 +58,14 @@ BFABarPlot class >> exampleMultipleSave [
 				threshold: thresholdValue ]
 
 
+]
+
+{ #category : #examples }
+BFABarPlot class >> exampleSave [
+
+	self 
+		savePlotFromCSV: 'STON-compiled-methods.csv'  
+		title: 'Bytecode Analysis for STON'
 ]
 
 { #category : #'instance creation' }
@@ -85,6 +89,17 @@ BFABarPlot class >> plotFromCSV: aFileReference title: aString threshold: anInte
 		build;
 		title: aString;
 		plot.
+]
+
+{ #category : #'instance creation' }
+BFABarPlot class >> savePlotFromCSV: aFileReference title: aString [
+	" Open a plot window using aFileReference describing CSV results from bytecode frequency analysis "
+	
+	self new
+		dataSource: aFileReference asFileReference;
+		build;
+		title: aString;
+		savePlot.
 ]
 
 { #category : #'instance creation' }
@@ -120,12 +135,6 @@ BFABarPlot >> buildChart [
 		fontSize: 4;
 		useDiagonalLabel.
 	chart verticalTick integer.
-]
-
-{ #category : #'public - plots' }
-BFABarPlot >> buildDataFrame [
-
-	dataFrame :=  DataFrame readFromCsvWithRowNames: self dataSource
 ]
 
 { #category : #'public - plots' }
@@ -175,41 +184,6 @@ BFABarPlot >> columnNames: anObject [
 	columnNames := anObject
 ]
 
-{ #category : #'public - plots' }
-BFABarPlot >> compiledMethodsCount [
-
-	^ String streamContents: [ : stream | 
-		stream 
-			space;
-			<< '(';
-			<< self dataFrame size asString;
-			<< ' compiled methods)' ]
-]
-
-{ #category : #'public - plots' }
-BFABarPlot >> dataFrame [
-
-	^ dataFrame
-]
-
-{ #category : #accessing }
-BFABarPlot >> dataFrame: anObject [
-
-	dataFrame := anObject
-]
-
-{ #category : #accessing }
-BFABarPlot >> dataSource [
-
-	^ dataSource
-]
-
-{ #category : #accessing }
-BFABarPlot >> dataSource: anObject [
-
-	dataSource := anObject
-]
-
 { #category : #accessing }
 BFABarPlot >> occurrences [
 
@@ -236,33 +210,11 @@ BFABarPlot >> savePlot [
 
 	self chart
 		title: self title , self compiledMethodsCount;
-		ylabel: 'Occurrences'.
-	RSPNGExporter new
+		ylabel: 'Occurrences';
+		build.
+	self chart canvas @ RSCanvasController.
+	RSPDFCairoExporter new
+		zoomToShapes;
 		canvas: self chart canvas;
-		exportToFile: self title asFileReference.
-]
-
-{ #category : #accessing }
-BFABarPlot >> threshold [
-
-	^ threshold
-		ifNil: [ threshold := 20 ]
-]
-
-{ #category : #accessing }
-BFABarPlot >> threshold: anObject [
-
-	threshold := anObject
-]
-
-{ #category : #accessing }
-BFABarPlot >> title [
-
-	^ title
-]
-
-{ #category : #accessing }
-BFABarPlot >> title: anObject [
-
-	title := anObject
+		exportToFile: (self title , '.pdf') asFileReference.
 ]
