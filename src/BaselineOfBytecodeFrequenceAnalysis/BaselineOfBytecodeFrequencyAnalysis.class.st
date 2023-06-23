@@ -1,18 +1,18 @@
 Class {
-	#name : #BaselineOfBytecodeFrequenceAnalysis,
+	#name : #BaselineOfBytecodeFrequencyAnalysis,
 	#superclass : #BaselineOf,
 	#category : #BaselineOfBytecodeFrequenceAnalysis
 }
 
 { #category : #baselines }
-BaselineOfBytecodeFrequenceAnalysis >> baseline: spec [
+BaselineOfBytecodeFrequencyAnalysis >> baseline: spec [
   <baseline>
 	spec
 		for: #(common)
 		do: [ 
 			spec 
-				package: 'BytecodeFrequenceAnalysis';
-				package: 'BytecodeFrequenceAnalysis-Tests'	with: [ spec requires: #(BytecodeFrequenceAnalysis) ].
+				package: 'BytecodeFrequencyAnalysis';
+				package: 'BytecodeFrequencyAnalysis-Tests'	with: [ spec requires: #(BytecodeFrequenceAnalysis) ].
 					
 			spec
 				baseline: 'Roassal3Exporters'
@@ -21,7 +21,7 @@ BaselineOfBytecodeFrequenceAnalysis >> baseline: spec [
 				with: [ spec repository: 'github://pharo-ai/ai/src' ].
 
 			spec 
-				group: 'Core' 						with: #('BytecodeFrequenceAnalysis' 'AIPharo' 'Roassal3Exporters');
-				group: 'Tests' 						with: #('BytecodeFrequenceAnalysis' 'BytecodeFrequenceAnalysis-Tests');
+				group: 'Core' 						with: #('BytecodeFrequencyAnalysis' 'AIPharo' 'Roassal3Exporters');
+				group: 'Tests' 						with: #('BytecodeFrequencyAnalysis' 'BytecodeFrequencyAnalysis-Tests');
 				group: 'default' 					with: #('Core' 'Tests') ]
 ]
