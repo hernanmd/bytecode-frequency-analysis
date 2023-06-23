@@ -24,7 +24,7 @@ EpMonitor disableDuring: [
 
 ## Baseline String 
 
-If you want to add the BytecodeFrequenceAnalysis to your Metacello Baselines or Configurations, copy and paste the following expression:
+If you want to add the BytecodeFrequencyAnalysis to your Metacello Baselines or Configurations, copy and paste the following expression:
 ```smalltalk
 	" ... "
 	spec

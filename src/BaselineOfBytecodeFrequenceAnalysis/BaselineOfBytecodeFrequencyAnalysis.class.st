@@ -1,7 +1,7 @@
 Class {
 	#name : #BaselineOfBytecodeFrequencyAnalysis,
 	#superclass : #BaselineOf,
-	#category : #BaselineOfBytecodeFrequenceAnalysis
+	#category : #BaselineOfBytecodeFrequencyAnalysis
 }
 
 { #category : #baselines }

@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfBytecodeFrequenceAnalysis }
+Package { #name : #BaselineOfBytecodeFrequencyAnalysis }
