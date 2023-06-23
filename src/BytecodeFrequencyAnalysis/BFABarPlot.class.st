@@ -21,6 +21,49 @@ BFABarPlot class >> example [
 		title: 'Bytecode Analysis for STON'
 ]
 
+{ #category : #examples }
+BFABarPlot class >> exampleMultiple [
+
+	| basePath |
+
+	basePath := ''.
+	#(
+		'STON-compiled-methods.csv' 'STON' 20
+		'NECompletion-compiled-methods.csv' 'Completion' 20
+		'FileSystem-compiled-methods.csv' 'FileSystem' 40
+		'Collection-compiled-methods.csv' 'Collection' 40
+		'Math-compiled-methods.csv' 'PolyMath' 40
+	)	
+		triplesDo: [ : fileName : title : thresholdValue| BFABarPlot 
+			plotFromCSV: basePath , fileName 
+			title: 'Bytecode Analysis of ' , title
+			threshold: thresholdValue ]
+
+
+]
+
+{ #category : #examples }
+BFABarPlot class >> exampleMultipleSave [
+
+	| basePath |
+
+	basePath := ''.
+	#(
+		'STON-compiled-methods.csv' 'STON' 20
+		'NECompletion-compiled-methods.csv' 'Completion' 20
+		'FileSystem-compiled-methods.csv' 'FileSystem' 40
+		'Collection-compiled-methods.csv' 'Collection' 40
+		'Math-compiled-methods.csv' 'PolyMath' 40
+	)	
+		triplesDo: [ : fileName : title : thresholdValue | 
+			BFABarPlot 
+				savePlotFromCSV: basePath , fileName 
+				title: 'Bytecode Analysis of ' , title
+				threshold: thresholdValue ]
+
+
+]
+
 { #category : #'instance creation' }
 BFABarPlot class >> plotFromCSV: aFileReference title: aString [
 	" Open a plot window using aFileReference describing CSV results from bytecode frequency analysis "
@@ -32,14 +75,38 @@ BFABarPlot class >> plotFromCSV: aFileReference title: aString [
 		plot.
 ]
 
+{ #category : #'instance creation' }
+BFABarPlot class >> plotFromCSV: aFileReference title: aString threshold: anInteger [
+	" Open a plot window using aFileReference describing CSV results from bytecode frequency analysis "
+	
+	self new
+		dataSource: aFileReference asFileReference;
+		threshold: anInteger;
+		build;
+		title: aString;
+		plot.
+]
+
+{ #category : #'instance creation' }
+BFABarPlot class >> savePlotFromCSV: aFileReference title: aString threshold: anInteger [
+	" Open a plot window using aFileReference describing CSV results from bytecode frequency analysis "
+	
+	self new
+		dataSource: aFileReference asFileReference;
+		threshold: anInteger;
+		build;
+		title: aString;
+		savePlot.
+]
+
 { #category : #'public - plots' }
 BFABarPlot >> build [
 
 	self 
 		buildDataFrame
 		buildFilter;
-		buildChart.
-
+		buildChart;
+		buildLegendBelow
 ]
 
 { #category : #'public - plots' }
@@ -50,7 +117,7 @@ BFABarPlot >> buildChart [
 	chart horizontalTick 
 		doNotUseNiceLabel;
 		fromNames: self columnNames;
-		fontSize: 3;
+		fontSize: 4;
 		useDiagonalLabel.
 	chart verticalTick integer.
 ]
@@ -109,6 +176,17 @@ BFABarPlot >> columnNames: anObject [
 ]
 
 { #category : #'public - plots' }
+BFABarPlot >> compiledMethodsCount [
+
+	^ String streamContents: [ : stream | 
+		stream 
+			space;
+			<< '(';
+			<< self dataFrame size asString;
+			<< ' compiled methods)' ]
+]
+
+{ #category : #'public - plots' }
 BFABarPlot >> dataFrame [
 
 	^ dataFrame
@@ -148,9 +226,20 @@ BFABarPlot >> occurrences: anObject [
 BFABarPlot >> plot [
 
 	self chart
-		title: self title;
+		title: self title , self compiledMethodsCount;
 		ylabel: 'Occurrences';
 		open
+]
+
+{ #category : #'public - plots' }
+BFABarPlot >> savePlot [
+
+	self chart
+		title: self title , self compiledMethodsCount;
+		ylabel: 'Occurrences'.
+	RSPNGExporter new
+		canvas: self chart canvas;
+		exportToFile: self title asFileReference.
 ]
 
 { #category : #accessing }

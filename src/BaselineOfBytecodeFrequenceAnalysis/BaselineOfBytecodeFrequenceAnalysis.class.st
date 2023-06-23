@@ -14,12 +14,14 @@ BaselineOfBytecodeFrequenceAnalysis >> baseline: spec [
 				package: 'BytecodeFrequenceAnalysis';
 				package: 'BytecodeFrequenceAnalysis-Tests'	with: [ spec requires: #(BytecodeFrequenceAnalysis) ].
 					
-		    spec
+			spec
+				baseline: 'Roassal3Exporters'
+				with: [ spec  repository: 'github://ObjectProfile/Roassal3Exporters' ];
 				baseline: 'AIPharo'
 				with: [ spec repository: 'github://pharo-ai/ai/src' ].
 
 			spec 
-				group: 'Core' 						with: #('BytecodeFrequenceAnalysis' 'AIPharo');
+				group: 'Core' 						with: #('BytecodeFrequenceAnalysis' 'AIPharo' 'Roassal3Exporters');
 				group: 'Tests' 						with: #('BytecodeFrequenceAnalysis' 'BytecodeFrequenceAnalysis-Tests');
 				group: 'default' 					with: #('Core' 'Tests') ]
 ]
