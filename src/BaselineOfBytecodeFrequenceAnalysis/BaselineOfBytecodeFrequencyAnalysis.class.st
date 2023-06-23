@@ -12,7 +12,7 @@ BaselineOfBytecodeFrequencyAnalysis >> baseline: spec [
 		do: [ 
 			spec 
 				package: 'BytecodeFrequencyAnalysis';
-				package: 'BytecodeFrequencyAnalysis-Tests'	with: [ spec requires: #(BytecodeFrequenceAnalysis) ].
+				package: 'BytecodeFrequencyAnalysis-Tests'	with: [ spec requires: #(BytecodeFrequencyAnalysis) ].
 					
 			spec
 				baseline: 'Roassal3Exporters'
