@@ -114,7 +114,7 @@ BFABarPlot class >> savePlotFromCSV: aFileReference title: aString threshold: an
 		savePlot.
 ]
 
-{ #category : #'public - plots' }
+{ #category : #building }
 BFABarPlot >> build [
 
 	self 
@@ -124,7 +124,7 @@ BFABarPlot >> build [
 		buildLegendBelow
 ]
 
-{ #category : #'public - plots' }
+{ #category : #building }
 BFABarPlot >> buildChart [
 
 	chart := RSChart new.
@@ -137,7 +137,7 @@ BFABarPlot >> buildChart [
 	chart verticalTick integer.
 ]
 
-{ #category : #'public - plots' }
+{ #category : #building }
 BFABarPlot >> buildFilter [
 	"Private - Calculate the sum of each row and column to get an idea of the total occurrences of bytecode combinations across functions (column sum) and the presence or absence of bytecode combinations within each function (row sum)."
 
