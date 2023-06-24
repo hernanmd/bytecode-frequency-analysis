@@ -1,6 +1,12 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*BytecodeFrequencyAnalysis' }
+SequenceableCollection >> containsSubcollection: aCollection [
+
+	^ (self indexOfSubCollection: aCollection startingAt: 1) = 0
+]
+
+{ #category : #'*BytecodeFrequencyAnalysis' }
 SequenceableCollection >> triplesDo: aBlock [
     " Assume receiver with 3-element triples. The block is called with 3 arguments for each 3 elements in the receiver, stepping by 3. If there's an odd number of items, ignore the last one(s). "
 
