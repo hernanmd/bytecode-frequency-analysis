@@ -70,30 +70,22 @@ BFAMethodCollector >> analyzeMethod: cm rowIndex: rowIndex [
 			self dataFrame
 				addEmptyRowNamed: classMethodRow
 				atPosition: rowIndex ].
-	(2 to: 3) do: [ : order |
-		self 
-			analyzeMethod: cm 
-			rowIndex: rowIndex 
-			order: order ]
+	super analyzeMethod: cm rowIndex: rowIndex
 
 ]
 
 { #category : #private }
 BFAMethodCollector >> analyzeMethod: cm rowIndex: rowIndex order: order [
 
-	(cm bytecodes ngrams: order) do: [ : bytecodeCombination |
+	(cm symbolicBytecodes ngrams: order) do: [ :bytecodeCombination |
 		| bytecodeColumnName |
-		bytecodeColumnName := bytecodeCombination asArray.
-		(self dataFrame columnNames includes: bytecodeColumnName)
-				ifFalse: [ self dataFrame addEmptyColumnNamed: bytecodeColumnName ].
-		self dataFrame 
-			at: rowIndex 
+		bytecodeColumnName := bytecodeCombination opCodeNames.
+		(self dataFrame columnNames includes: bytecodeColumnName) ifFalse: [
+			self dataFrame addEmptyColumnNamed: bytecodeColumnName ].
+		self dataFrame
+			at: rowIndex
 			at: (self dataFrame indexOfColumnNamed: bytecodeColumnName)
-			transform: [ : val |
-				val isNil 
-					ifTrue: [ 1 ] 
-					ifFalse: [ val + 1 ] ] ]
-
+			transform: [ :val | val ifNil: [ 1 ] ifNotNil: [ :arg | val + 1 ] ] ]
 ]
 
 { #category : #accessing }

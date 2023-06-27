@@ -14,7 +14,9 @@ Class {
 	#instVars : [
 		'selectedMethods',
 		'selectedSubsetName',
-		'bytecodeGrams'
+		'bytecodeGrams',
+		'minNGramSize',
+		'maxNGramSize'
 	],
 	#category : #BytecodeFrequencyAnalysis
 }
@@ -38,7 +40,7 @@ BFACollector class >> example3 [
 { #category : #private }
 BFACollector >> analyzeMethod: cm rowIndex: rowIndex [
 
-	(2 to: 3) do: [ : order |
+	(self minNGramSize to: self maxNGramSize) do: [ : order |
 		self 
 			analyzeMethod: cm 
 			rowIndex: rowIndex 
@@ -49,8 +51,8 @@ BFACollector >> analyzeMethod: cm rowIndex: rowIndex [
 { #category : #private }
 BFACollector >> analyzeMethod: cm rowIndex: rowIndex order: order [
 
-	(cm bytecodes ngrams: order) do: [ : bytecodeCombination |
-		self bytecodeGrams add: bytecodeCombination asArray ]
+	(cm symbolicBytecodes ngrams: order) do: [ : bytecodeCombination |
+		self bytecodeGrams add: bytecodeCombination opCodeNames ]
 
 ]
 
@@ -81,6 +83,27 @@ BFACollector >> excludeTestFromPackage: p [
 	^ (p name findTokens: '-') includes: 'Tests'
 ]
 
+{ #category : #initialization }
+BFACollector >> initialize [
+
+	super initialize.
+	self 
+		minNGramSize: 2;
+		maxNGramSize: 3
+]
+
+{ #category : #accessing }
+BFACollector >> maxNGramSize [
+
+	^ maxNGramSize
+]
+
+{ #category : #accessing }
+BFACollector >> maxNGramSize: anObject [
+
+	maxNGramSize := anObject
+]
+
 { #category : #private }
 BFACollector >> methodsFromPackageName: aPackageName [
 
@@ -90,6 +113,18 @@ BFACollector >> methodsFromPackageName: aPackageName [
 			   (p name beginsWith: aPackageName) and: [
 				   (self excludeTestFromPackage: p) not ] ]
 		   thenCollect: [ :p | p methods ]) flattened
+]
+
+{ #category : #accessing }
+BFACollector >> minNGramSize [
+
+	^ minNGramSize
+]
+
+{ #category : #accessing }
+BFACollector >> minNGramSize: anObject [
+
+	minNGramSize := anObject
 ]
 
 { #category : #subsets }
