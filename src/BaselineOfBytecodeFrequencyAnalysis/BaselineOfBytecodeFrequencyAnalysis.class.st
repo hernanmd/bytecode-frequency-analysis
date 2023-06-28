@@ -15,13 +15,16 @@ BaselineOfBytecodeFrequencyAnalysis >> baseline: spec [
 				package: 'BytecodeFrequencyAnalysis-Tests'	with: [ spec requires: #(BytecodeFrequencyAnalysis) ].
 					
 			spec
+			spec
+				baseline: 'DataFrame'
+				with: [ spec repository: 'github://PolyMathOrg/DataFrame/src' ];
 				baseline: 'Roassal3Exporters'
 				with: [ spec  repository: 'github://ObjectProfile/Roassal3Exporters' ];
-				baseline: 'AIPharo'
-				with: [ spec repository: 'github://pharo-ai/ai/src' ].
+				baseline: 'NgramModel'
+				with: [ spec repository: 'github://pharo-ai/NgramModel/src' ].
 
 			spec 
-				group: 'Core' 						with: #('BytecodeFrequencyAnalysis' 'AIPharo' 'Roassal3Exporters');
+				group: 'Core' 						with: #('BytecodeFrequencyAnalysis' 'NgramModel' 'Roassal3Exporters' 'DataFrame');
 				group: 'Tests' 						with: #('BytecodeFrequencyAnalysis' 'BytecodeFrequencyAnalysis-Tests');
 				group: 'default' 					with: #('Core' 'Tests') ]
 ]
