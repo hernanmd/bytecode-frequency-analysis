@@ -1,3 +1,8 @@
+"
+Open or export a bar plot where X axis represent the functions or bytecode combinations, and the y-axis can represent the sum of occurrences.
+See class side examples for usage.
+
+"
 Class {
 	#name : #BFABarPlot,
 	#superclass : #BFAPlot,

@@ -3,10 +3,8 @@ Given a data source and a combination in the form of a `Collection` of bytecode 
 "
 Class {
 	#name : #BFACombinationGrouper,
-	#superclass : #Object,
+	#superclass : #BFAObject,
 	#instVars : [
-		'dataSource',
-		'dataFrame',
 		'targetBytecodeCombination'
 	],
 	#category : #BytecodeFrequencyAnalysis
@@ -18,30 +16,6 @@ BFACombinationGrouper class >> example [
 	BFACombinationGrouper new
 		targetBytecodeCombination: #();
 		group
-]
-
-{ #category : #accessing }
-BFACombinationGrouper >> dataFrame [
-
-	^ dataFrame
-]
-
-{ #category : #accessing }
-BFACombinationGrouper >> dataFrame: anObject [
-
-	dataFrame := anObject
-]
-
-{ #category : #accessing }
-BFACombinationGrouper >> dataSource [
-
-	^ dataSource
-]
-
-{ #category : #accessing }
-BFACombinationGrouper >> dataSource: anObject [
-
-	dataSource := anObject
 ]
 
 { #category : #'public - plots' }

@@ -1,9 +1,10 @@
+"
+Each iteration of selected methods stores all combinations of bytecode sequences (up to a n-gram order), along with the occurrence number of the current bytecode sequence, in a `DataFrame`. After all iterations are completed, write its contents to a file.
+
+"
 Class {
 	#name : #BFAMethodCollector,
 	#superclass : #BFACollector,
-	#instVars : [
-		'dataFrame'
-	],
 	#category : #BytecodeFrequencyAnalysis
 }
 
@@ -64,7 +65,13 @@ BFAMethodCollector class >> example6 [
 BFAMethodCollector >> analyzeMethod: cm rowIndex: rowIndex [
 
 	| classMethodRow |
-	classMethodRow := cm methodClass asString , '>>' , cm selector , '|' , rowIndex asString.
+	classMethodRow := String streamContents: [ : stream |
+		stream 
+			<< cm methodClass asString;
+			<< '>>';
+			<< cm selector;
+			<< '|';
+			<<  rowIndex asString ].
 	(self dataFrame rowNames includes: classMethodRow)
 		ifFalse: [ 
 			self dataFrame
@@ -76,6 +83,9 @@ BFAMethodCollector >> analyzeMethod: cm rowIndex: rowIndex [
 
 { #category : #private }
 BFAMethodCollector >> analyzeMethod: cm rowIndex: rowIndex order: order [
+	"Private - Iterate over the cm <CompiledMethod> symbolic bytecodes combinations,
+	order is an <Integer> which specifies combinations of how many are built.
+	Write 1 if combination is found, 0 otherwise "
 
 	(cm symbolicBytecodes ngrams: order) do: [ :bytecodeCombination |
 		| bytecodeColumnName |
@@ -88,23 +98,10 @@ BFAMethodCollector >> analyzeMethod: cm rowIndex: rowIndex order: order [
 			transform: [ :val | val ifNil: [ 1 ] ifNotNil: [ :arg | val + 1 ] ] ]
 ]
 
-{ #category : #accessing }
-BFAMethodCollector >> dataFrame [
-
-	^ dataFrame
-		ifNil: [ dataFrame := DataFrame new ]
-]
-
-{ #category : #accessing }
-BFAMethodCollector >> dataFrame: anObject [
-
-	dataFrame := anObject
-]
-
 { #category : #private }
 BFAMethodCollector >> writeDataFrame [
 
-	self dataFrame replaceNilsWith: 0.
+	self dataFrame replaceNilsWithZero.
 	self dataFrame writeToCsv: 
 		(self selectedSubsetName ,  '-compiled-methods.csv') asFileReference.
 ]

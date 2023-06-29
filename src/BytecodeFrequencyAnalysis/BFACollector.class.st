@@ -2,7 +2,7 @@
 # Usage Example
 
 ```language=Pharo
-SuperInstructionCollector new
+BFACollector new
 	collect;
 	writeDataFrame.
 ```
@@ -10,7 +10,7 @@ SuperInstructionCollector new
 "
 Class {
 	#name : #BFACollector,
-	#superclass : #Object,
+	#superclass : #BFAObject,
 	#instVars : [
 		'selectedMethods',
 		'selectedSubsetName',
@@ -50,7 +50,10 @@ BFACollector >> analyzeMethod: cm rowIndex: rowIndex [
 
 { #category : #private }
 BFACollector >> analyzeMethod: cm rowIndex: rowIndex order: order [
-
+	"Private - Iterate over the cm <CompiledMethod> symbolic bytecodes combinations,
+	order is an <Integer> which specifies combinations of how many are built.
+	Add found combinations in the receiver's grams "
+	
 	(cm symbolicBytecodes ngrams: order) do: [ : bytecodeCombination |
 		self bytecodeGrams add: bytecodeCombination opCodeNames ]
 

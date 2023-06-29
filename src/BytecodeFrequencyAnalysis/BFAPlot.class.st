@@ -1,20 +1,16 @@
+"
+Abstract class to specific bytecode frequence analysis plots.
+
+"
 Class {
 	#name : #BFAPlot,
-	#superclass : #Object,
+	#superclass : #BFAObject,
 	#instVars : [
-		'dataSource',
-		'dataFrame',
 		'title',
 		'threshold'
 	],
 	#category : #BytecodeFrequencyAnalysis
 }
-
-{ #category : #'public - plots' }
-BFAPlot >> buildDataFrame [
-
-	dataFrame :=  DataFrame readFromCsvWithRowNames: self dataSource
-]
 
 { #category : #'public - plots' }
 BFAPlot >> compiledMethodsCount [
@@ -25,30 +21,6 @@ BFAPlot >> compiledMethodsCount [
 			<< '(';
 			<< self dataFrame size asString;
 			<< ' compiled methods)' ]
-]
-
-{ #category : #'public - plots' }
-BFAPlot >> dataFrame [
-
-	^ dataFrame
-]
-
-{ #category : #accessing }
-BFAPlot >> dataFrame: anObject [
-
-	dataFrame := anObject
-]
-
-{ #category : #accessing }
-BFAPlot >> dataSource [
-
-	^ dataSource
-]
-
-{ #category : #accessing }
-BFAPlot >> dataSource: anObject [
-
-	dataSource := anObject
 ]
 
 { #category : #accessing }
