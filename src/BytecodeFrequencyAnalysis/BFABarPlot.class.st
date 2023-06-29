@@ -50,6 +50,7 @@ BFABarPlot class >> exampleMultipleSave [
 		'FileSystem-compiled-methods.csv' 'FileSystem' 40
 		'Collection-compiled-methods.csv' 'Collection' 100
 		'Math-compiled-methods.csv' 'PolyMath' 100
+		'Morphic-compiled-methods.csv' 'PolyMath' 100
 	)	
 		triplesDo: [ : fileName : title : thresholdValue | 
 			BFABarPlot 
@@ -212,7 +213,6 @@ BFABarPlot >> savePlot [
 		title: self title , self compiledMethodsCount;
 		ylabel: 'Occurrences';
 		build.
-	self chart canvas @ RSCanvasController.
 	RSPDFCairoExporter new
 		zoomToShapes;
 		canvas: self chart canvas;
